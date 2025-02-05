@@ -1,0 +1,8 @@
+Total de ventas: $274223.00
+Tiempo de ejecución: 0.0001 segundos
+Errores encontrados:
+ - Antivirus no encontrado en el catálogo
+ - Chair no encontrado en el catálogo
+ - Pen no encontrado en el catálogo
+ - iPad no encontrado en el catálogo
+ - Cantidad -3 inválido para Laptop
