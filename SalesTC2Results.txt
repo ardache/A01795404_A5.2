@@ -1,0 +1,5 @@
+Total de ventas: $169478.22
+Tiempo de ejecución: 0.0003 segundos
+Errores encontrados:
+ - Cantidad -35 inválido para Fresh blueberries
+ - Cantidad -123 inválido para Green smoothie

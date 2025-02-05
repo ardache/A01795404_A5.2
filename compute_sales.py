@@ -29,7 +29,10 @@ def load_json_file(file_path):
     """Carga un archivo JSON y maneja errores"""
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
-            return json.load(file)
+            data = json.load(file)
+            if isinstance(data, list):
+                return data
+            print(f"Error: El archivo {file_path} no es un JSON válida.")
     except FileNotFoundError:
         print(f"Error: El archivo {file_path} no se encontró.")
     except json.JSONDecodeError:
@@ -45,7 +48,7 @@ def load_csv_file(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             reader = csv.reader(file)
-            next(reader) 
+            next(reader)
             for row in reader:
                 if len(row) != 2:
                     print(f"Error: Fila inválida en {file_path}: {row}")
@@ -72,16 +75,20 @@ def compute_total_sales(price_catalogue, sales_record):
     """Calcula el costo total de todas las ventas registradas"""
     total_cost = 0.0
     errors = []
+    price_dict = {item["title"]: item["price"] for item in price_catalogue}
     for sale in sales_record:
-        product = sale.get("product")
-        quantity = sale.get("quantity")
-        if product not in price_catalogue:
+        product = sale.get("Product")
+        quantity = sale.get("Quantity")
+        if product is None or quantity is None:
+            errors.append(f"Registro inválido en ventas: {sale}")
+            continue
+        if product not in price_dict:
             errors.append(f"{product} no encontrado en el catálogo")
             continue
         if not isinstance(quantity, (int, float)) or quantity < 0:
             errors.append(f"Cantidad {quantity} inválido para {product}")
             continue
-        price = price_catalogue[product]
+        price = price_dict[product]
         total_cost += price * quantity
     return total_cost, errors
 
@@ -95,7 +102,7 @@ def main():
     sales_record_file = sys.argv[2]
     start_time = time.time()
     price_catalogue = load_json_file(price_catalogue_file)
-    sales_record = load_csv_file(sales_record_file)
+    sales_record = load_json_file(sales_record_file)
     if price_catalogue is None or not sales_record:
         print("Error: No se pudieron cargar los archivos correctamente.")
         sys.exit(1)
@@ -110,7 +117,7 @@ def main():
         print("Errores encontrados:")
         for error in errors:
             print(f" - {error}")
-    with open("SalesResults.txt", "w", encoding="utf-8") as result_file:
+    with open("SalesTC1Results.txt", "w", encoding="utf-8") as result_file:
         result_file.write(result_message)
         if errors:
             result_file.write("Errores encontrados:\n")

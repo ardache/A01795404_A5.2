@@ -1,0 +1,7 @@
+Total de ventas: $168145.36
+Tiempo de ejecución: 0.0002 segundos
+Errores encontrados:
+ - Elotes no encontrado en el catálogo
+ - Cantidad -35 inválido para Fresh blueberries
+ - Frijoles no encontrado en el catálogo
+ - Cantidad -123 inválido para Green smoothie
